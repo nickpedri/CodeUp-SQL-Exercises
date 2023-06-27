@@ -68,5 +68,29 @@ SELECT * FROM orders WHERE quantity > 2
 AND (item_name LIKE 'Steak%' OR item_name LIKE 'Chicken%' ) 
 AND order_id BETWEEN 50 AND 250;
 
+-- --------- ORDER BY AND LIMIT
+
+USE employees;
+SELECT * FROM employees ORDER BY last_name;
+
+/* The ORDER BY keyword will organize the results alphabetically either descending or ascending. 
+It can also organize numerically. The modifier DESC and ASC can be used to change order.
+
+*/ 
+
+SELECT * FROM employees LIMIT 10 OFFSET 5;
+
+# LIMIT is used to change the number of results. A limit of 10 will return only 10 results.alter
+#OFFSET will change which row the results will begin at. An OFFSET of 10 will ignore the first 10 results and start
+# from the 11th result.
+
+
+SELECT * FROM employees WHERE  birth_date LIKE '%12-25' AND hire_date LIKE '199%'
+ ORDER BY hire_date ASC LIMIT 5 OFFSET 2;
+
+
+
+
+
 
 
