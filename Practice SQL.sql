@@ -88,9 +88,88 @@ SELECT * FROM employees LIMIT 10 OFFSET 5;
 SELECT * FROM employees WHERE  birth_date LIKE '%12-25' AND hire_date LIKE '199%'
  ORDER BY hire_date ASC LIMIT 5 OFFSET 2;
 
+-- ------------------ MySQL Functions --------------------------
+
+#Numerical functions
+-- AVG: the mean
+SELECT AVG(salary) FROM salaries;
+
+-- MIN: for finding the minimum value
+SELECT MIN(salary) FROM salaries;
+
+-- MAX: for finding the maximum value
+SELECT MAX(salary) FROM salaries;
+
+SELECT CONCAT('Hello ', 'Codeup', '!');
+
+SELECT CONCAT(first_name,' ',last_name) AS Full_Name,gender FROM employees;
+#CONCAT strings together two separate strings into one as such.
+
+#SUBSTR(string, start_index, length)
+# substrings in SQL start at 1 not 0 like python
+#if no length is set then SUBSTR will default to the very end of the string
+
+SELECT SUBSTR('abcdefghijklmnopqrstuvwxyz', 14); #begins at 14th character until the end
+SELECT SUBSTR('abcdefghijklmnopqrstuvwxyz',1,13); #INCLUSIVE command. Will include index 1. and go for 13 characters
+SELECT RIGHT('abcdefghijklmnopqrstuvwxyz',6); #starts from the right side
+SELECT SUBSTR('abcdefghijklmnopqrstuvwxyz',-9); #substring can be negative
+
+# Case Conversion
+
+SELECT UPPER('abcde'), LOWER('ABCDE');
+
+# REPLACE(subject, search, replacement)
+/* subject is the string that will be worked on.
+search is the part of the string that is being searched for to be replaced
+the replacement is the replacement duh*/
+
+SELECT REPLACE('abcdefg', 'abc', '123');
+SELECT REPLACE('caaaaaa', 'ca', 'c');
 
 
 
+###Date and Time Functions
+SELECT NOW();
+SELECT CURDATE();
+SELECT CURTIME();
+#shows zulu time
 
+SELECT CONVERT_TZ(NOW(),'+00:00','-05:00');
+
+
+
+##### UNIX_TIMESTAMP() & UNIX_TIMESTAMP(date)
+
+/*
+The UNIX_TIMESTAMP() function is used to represent time as an integer. 
+It will return the number of seconds since midnight January 1st, 1970. 
+If you pass a date time value to UNIX_TIMESTAMP(), it will give you the number of
+ seconds from the unix epoch to that date.
+*/
+SELECT CONCAT(
+    'Teaching people to code for ',
+    UNIX_TIMESTAMP() - UNIX_TIMESTAMP('2014-02-04'),
+    ' seconds'
+);
+
+
+SELECT
+    1 + '4',
+    '3' - 1,
+    CONCAT('Here is a number: ', 123);
+
+#Casting
+
+#To cast a number or string as a different data type use the cast function
+
+#CAST(DATA as NEW_DATA) Example below
+
+SELECT
+    CAST(123 as CHAR),
+    CAST('123' as UNSIGNED);
+    
+    
+   # DATEDIFF(x,y) where x and y are dates. This will return x-y.
+   SELECT CONCAT('I am ',DATEDIFF(CURDATE(),'1997-08-10'),' days old!') AS 'Age in days:';
 
 
