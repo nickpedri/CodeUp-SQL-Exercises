@@ -173,3 +173,24 @@ SELECT
    SELECT CONCAT('I am ',DATEDIFF(CURDATE(),'1997-08-10'),' days old!') AS 'Age in days:';
 
 
+-- --------------GROUP BY
+
+SELECT first_name
+FROM employees
+GROUP BY first_name;
+
+SELECT first_name
+FROM employees
+GROUP BY first_name 
+ORDER BY first_name DESC;
+
+
+SELECT first_name, COUNT(first_name)
+FROM employees
+WHERE first_name NOT LIKE '%a%'
+GROUP BY first_name;
+
+SELECT hire_date,COUNT(hire_date) FROM employees GROUP BY hire_date 
+ORDER BY COUNT(hire_date) DESC LIMIT 10;
+
+
