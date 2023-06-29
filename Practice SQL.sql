@@ -194,3 +194,28 @@ SELECT hire_date,COUNT(hire_date) FROM employees GROUP BY hire_date
 ORDER BY COUNT(hire_date) DESC LIMIT 10;
 
 
+#_#_#_#_#__#_#_#_#_#_#_#_#_#_#_#_#_#_#
+
+#29 JUN 2023
+ -- Are WHERE and HAVING clauses interchangeable? Difference?
+ 
+ /*They are similar but not interchangeable. Where is used in the main body of 
+ the query and having is used in conjuction with the GROUP BY function. 
+ The where clause will be performed first and then the 
+ having clause is performed. */
+ 
+ 
+ 
+ #Characteristics of primary keys:
+ # They are unique, no duplicates in a table
+ #they make the query run faster
+ #There is only one per table
+ #PK cannot be null
+ 
+ 
+ SELECT * FROM employees;
+ SELECT * FROM titles;
+
+ 
+ SELECT E.emp_no,CONCAT(first_name,' ',last_name) AS Employee,title FROM employees as E 
+ JOIN titles as T ON E.emp_no = T.emp_no;
