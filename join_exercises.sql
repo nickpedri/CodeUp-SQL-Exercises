@@ -16,13 +16,16 @@ WHERE to_date = '9999-01-01' ORDER BY dept_name ASC;
 
 
 -- 3. Find the name of all departments currently managed by women.
-SELECT dept_name AS 'Department Name' ,CONCAT(first_name,' ',last_name) AS 'Department Manager',gender
+SELECT dept_name AS 'Department Name' ,
+		CONCAT(first_name,' ',last_name) AS 'Department Manager',
+        gender
 FROM dept_manager AS D
 JOIN employees AS E
 	ON D.emp_no = E.emp_no 
 JOIN departments AS DEP
 	ON DEP.dept_no = D.dept_no 
-WHERE to_date = '9999-01-01'AND gender = 'F' ORDER BY dept_name ASC;
+WHERE to_date = '9999-01-01'AND gender = 'F' 
+ORDER BY dept_name ASC;
 
 
 -- 4. Find the current titles of employees currently working in the Customer Service department.  Title,employees, departments
@@ -61,7 +64,7 @@ JOIN departments AS Dep
 JOIN employees as E
 	ON D.emp_no = E.emp_no
 WHERE D.to_date = '9999-01-01'
-GROUP BY D.dept_no,'Department Name' ORDER BY D.dept_no;
+GROUP BY D.dept_no ORDER BY D.dept_no;
 
 -- 7. Which department has the highest average salary? Hint: Use current not historic information.department/salaries and deptemp
 SELECT dept_name, AVG(salary) FROM salaries AS S
@@ -126,8 +129,7 @@ JOIN (SELECT dept_name AS DN ,CONCAT(first_name,' ',last_name) AS DM
 FROM dept_manager AS D
 JOIN employees AS E
 ON D.emp_no = E.emp_no JOIN departments AS DEP
-ON DEP.dept_no = D.dept_no WHERE to_date = '9999-01-01' ORDER BY dept_name ASC)
-AS M
+ON DEP.dept_no = D.dept_no WHERE to_date = '9999-01-01' ORDER BY dept_name ASC) AS M
 ON DN = dept_name
 WHERE DEP.to_date = '9999-01-01';
 
@@ -148,5 +150,124 @@ FROM dept_manager AS D
 JOIN employees AS E
 ON D.emp_no = E.emp_no JOIN departments AS DEP
 ON DEP.dept_no = D.dept_no WHERE to_date = '9999-01-01' ORDER BY dept_name ASC;
+
+
+
+
+
+-- ------------------------------------------------------------
+
+-- 2. Using the example in the Associative Table Joins section as a guide, write a query that shows each department along with the name of the current manager for that department.
+#dept_manager, departments, employees
+
+SELECT dept_name, CONCAT(first_name,' ',last_name) AS Manager 
+FROM departments AS D
+JOIN dept_manager AS M
+	ON M.dept_no = D.dept_no
+JOIN employees AS E
+	ON E.emp_no = M.emp_no
+WHERE to_date = '9999-01-01' ORDER BY dept_name ASC;
+
+
+
+
+-- 3. Find the name of all departments currently managed by women.
+SELECT dept_name, CONCAT(first_name,' ',last_name) AS Manager, gender
+FROM departments AS D
+JOIN dept_manager AS M
+	ON M.dept_no = D.dept_no
+JOIN employees AS E
+	ON E.emp_no = M.emp_no
+WHERE to_date = '9999-01-01' AND gender = 'F' ORDER BY dept_name ASC;
+
+
+
+-- 4. Find the current titles (title count)of employees currently working in the Customer Service department.  Title,departments
+SELECT title,COUNT(title) FROM titles AS T
+JOIN dept_emp AS DE
+	ON T.emp_no = DE.emp_no
+JOIN departments AS D
+	ON D.dept_no = DE.dept_no
+WHERE T.to_date = '9999-01-01' AND dept_name = 'Customer Service'
+GROUP BY title ORDER BY title ASC;
+
+
+
+-- 5. Find the current salary of all current managers.
+SELECT  dept_name, 
+		CONCAT(first_name,' ',last_name) AS Manager, 
+		salary
+FROM departments AS D
+JOIN dept_manager AS M
+	ON M.dept_no = D.dept_no
+JOIN employees AS E
+	ON E.emp_no = M.emp_no
+JOIN salaries AS S
+	ON S.emp_no = M.emp_no
+WHERE M.to_date = '9999-01-01' AND S.to_date = '9999-01-01'  
+ORDER BY dept_name ASC;
+
+
+
+-- 6. Find the number of current employees in each department.
+#departments
+
+SELECT D.dept_no,dept_name,COUNT(*) FROM departments AS D
+JOIN dept_emp AS DE
+	ON DE.dept_no = D.dept_no
+WHERE to_date = '9999-01-01'
+GROUP BY dept_no
+ORDER BY dept_no ASC;
+
+
+
+-- 7. Which department has the highest average salary? Hint: Use current not historic information. 
+
+SELECT dept_name,AVG(salary) from departments AS D
+JOIN dept_emp AS DE
+	ON DE.dept_no = D.dept_no
+JOIN salaries AS S
+	ON S.emp_no = DE.emp_no
+WHERE S.to_date = '9999-01-01'
+GROUP BY dept_name ORDER BY AVG(salary) DESC LIMIT 1;
+
+
+
+-- 8. Who is the highest paid employee in the Marketing department?
+SELECT * FROM employees AS E
+JOIN dept_emp AS DE
+	ON DE.emp_no = E.emp_no
+JOIN departments AS D
+	ON D.dept_no = DE.dept_no
+JOIN salaries AS S
+	ON S.emp_no = E.emp_no
+WHERE dept_name = 'Marketing'
+ORDER BY salary DESC LIMIT 1;
+
+
+
+-- 9. Which current department manager has the highest salary?
+
+SELECT dept_name, CONCAT(first_name,' ',last_name) AS Manager, salary
+FROM departments AS D
+JOIN dept_manager AS M
+	ON M.dept_no = D.dept_no
+JOIN employees AS E
+	ON E.emp_no = M.emp_no
+JOIN salaries AS S
+	ON S.emp_no = E.emp_no
+WHERE M.to_date = '9999-01-01' AND S.to_date = '9999-01-01' ORDER BY dept_name ASC;
+
+-- 
+-- 10. Determine the average salary for each department. Use all salary information and round your results.
+
+
+SELECT dept_name,ROUND(AVG(salary),0)  from departments AS D
+JOIN dept_emp AS DE
+	ON DE.dept_no = D.dept_no
+JOIN salaries AS S
+	ON S.emp_no = DE.emp_no
+GROUP BY dept_name ORDER BY AVG(salary) DESC;
+
 
 

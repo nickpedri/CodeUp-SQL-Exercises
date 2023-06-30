@@ -219,3 +219,10 @@ ORDER BY COUNT(hire_date) DESC LIMIT 10;
  
  SELECT E.emp_no,CONCAT(first_name,' ',last_name) AS Employee,title FROM employees as E 
  JOIN titles as T ON E.emp_no = T.emp_no;
+ 
+ 
+ 
+ 
+ 
+ 
+
