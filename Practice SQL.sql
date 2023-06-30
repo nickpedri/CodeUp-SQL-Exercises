@@ -223,6 +223,58 @@ ORDER BY COUNT(hire_date) DESC LIMIT 10;
  
  
  
+ ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- ## -- 
  
- 
+#SUBQUERIES
+
+#This quesry will find the average salary
+SELECT AVG(salary) FROM salaries WHERE to_date > CURDATE();
+
+#This query will find the employee numbers of employees who make more than the average salary
+#by referencing a query that shows the average salary
+
+SELECT emp_no, salary
+FROM salaries
+WHERE salary > (SELECT AVG(salary) FROM salaries WHERE to_date > CURDATE())
+AND to_date > CURDATE();
+
+SELECT emp_no, salary
+FROM salaries
+WHERE salary > 2 * (SELECT AVG(salary) FROM salaries WHERE to_date > CURDATE())
+AND to_date > CURDATE();
+
+#THis query uses a subquery to produce a list of the managers employee numbers so that the
+#main query can use that list in the WHERE clause.
+SELECT first_name, last_name, birth_date
+FROM employees
+WHERE emp_no IN (
+    SELECT emp_no
+    FROM dept_manager
+)
+LIMIT 10;
+
+sELECT emp_no FROM dept_manager;
+
+SELECT first_name, last_name, birth_date
+FROM employees
+WHERE emp_no = (
+    SELECT emp_no
+    FROM employees
+    WHERE emp_no = 101010
+);
+
+
+
+#This query returns the bith date, name, and employee number
+# from a table created by another query
+SELECT g.birth_date, g.emp_no, g.first_name from
+(
+    SELECT *
+    FROM employees
+    WHERE first_name like 'Geor%'
+) as g;
+
+#Why is a subquery a good? What are the advantages?
+#You can create more complex queries with simpler code.
+# Allows you to reference multiple queries without joining them.
 

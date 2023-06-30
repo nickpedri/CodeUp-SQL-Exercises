@@ -1,3 +1,19 @@
+#JOin example database
+-- 1. Use the join_example_db. Select all the records from both the users and roles tables.
+
+USE join_example_db;
+SELECT * FROM users;
+SELECT * FROM roles;
+
+-- 2. Use join, left join, and right join to combine results from the users and roles tables as we did in the lesson. Before you run each query, guess the expected number of results.
+SELECT * FROM users LEFT JOIN roles ON users.role_id = roles.id;
+SELECT * FROM roles LEFT JOIN users ON users.role_id = roles.id;
+
+
+-- 3. Although not explicitly covered in the lesson, aggregate functions like count can be used with join queries. Use count and the appropriate join type to get a list of roles along with the number of users that has the role. Hint: You will also need to use group by in the query.
+SELECT roles.name, COUNT FROM users JOIN roles ON users.role_id = roles.id GROUP BY roles.name;
+
+
 -- 1. Use the employees database.
 USE employees;
 
@@ -36,7 +52,7 @@ JOIN dept_emp AS D
 	ON titles.emp_no = D.emp_no
 JOIN departments AS dep
 	ON dep.dept_no = D.dept_no
-WHERE titles.to_date = '9999-01-01' AND dept_name = 'Customer Service' 
+WHERE titles.to_date = '9999-01-01' AND dept_name = 'Customer Service' AND D.to_date = '9999-01-01'
 GROUP BY title ORDER BY title ASC;
 
 
@@ -106,16 +122,6 @@ JOIN departments AS D
 GROUP BY dept_name ORDER BY AVG(salary) DESC;
 
 -- 11. Bonus Find the names of all current employees, their department name, and their current manager's name.
-			
-SELECT 	* FROM employees AS E
-JOIN dept_emp AS DEP
-	ON E.emp_no = DEP.emp_no
-JOIN departments AS D
-	ON D.dept_no = DEP.dept_no WHERE DEP.to_date = '9999-01-01' ;
-    
-    
-    
-    
     
 SELECT 	CONCAT(first_name,' ',last_name) AS 'Employee Name',
 		dept_name AS 'Department Name',
