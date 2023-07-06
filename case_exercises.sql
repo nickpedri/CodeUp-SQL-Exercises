@@ -103,11 +103,12 @@ GROUP BY dept_group;
 
 -- Remove duplicate employees from exercise 1.
 
-SELECT dept_no, E.emp_no, first_name, last_name, hire_date,to_date,
+SELECT dept_no, E.emp_no, first_name, last_name, from_date,to_date,
 IF(to_date > CURDATE(),True,False) AS is_currently_employee
 FROM employees AS E
 JOIN dept_emp AS DE
  ON DE.emp_no = E.emp_no; #code for exercise 1
+
  
  SELECT * FROM dept_emp WHERE emp_no = 11092 OR emp_no = 15499; #test for emp_no to see what could cause double entries
 
@@ -133,9 +134,9 @@ WHERE to_date > CURDATE()
 GROUP BY emp_no
 ORDER BY COUNT(E.emp_no) DESC;    #count for joined tables. WHERE it only shows the employee once for the current branch they work in.
  
- SELECT dept_no, E.emp_no, first_name, last_name, hire_date,to_date,
+SELECT dept_no, E.emp_no, first_name, last_name, from_date,to_date,
 IF(to_date > CURDATE(),True,False) AS is_currently_employee
 FROM employees AS E
 JOIN dept_emp AS DE
- ON DE.emp_no = E.emp_no
- WHERE to_date > CURDATE();   #will filter out all old employees and leaves only current employees therefore removing duplicates.
+	ON DE.emp_no = E.emp_no
+WHERE to_date > CURDATE();   #will filter out all old employees and leaves only current employees therefore removing duplicates.

@@ -278,3 +278,64 @@ SELECT g.birth_date, g.emp_no, g.first_name from
 #You can create more complex queries with simpler code.
 # Allows you to reference multiple queries without joining them.
 
+USE albums_db;
+SELECT * FROM albums;
+
+SELECT AVG(release_date) FROM albums;  #1985.7742
+
+SELECT * FROM albums 
+WHERE release_date > (SELECT AVG(release_date) FROM albums) 
+ORDER BY release_date ASC;
+
+
+#__________________###__________________________
+# USING IF()
+
+/*
+SELECT IF(condition, value_1, value_2) AS new_column
+FROM table_a;
+
+*/
+ #PRIMARILY USED TO RETURN TRUE AND FALSE VALUES
+ 
+ USE employees;
+ SELECT
+    dept_name,
+    IF(dept_name = 'Research', True, False) AS is_research
+FROM employees.departments;
+
+#CASE STATEMENTS
+
+SELECT
+    CASE column_a
+        WHEN condition_a THEN value_1
+        WHEN condition_b THEN value_2
+        ELSE value_3
+    END AS new_column_name
+FROM table_a;
+#SELECTS one single column. BEST USED when tou have more tha two optional values and need more flexibility in your conditional statements.
+
+SELECT
+    dept_name,
+    CASE dept_name # adding the column name here makes it a one column
+        WHEN 'research' THEN 'Development'
+        WHEN 'marketing' THEN 'Sales'
+        ELSE dept_name
+    END AS dept_group
+FROM departments;
+
+#code goes through department names and if the dept name matches one of the them clauses it will change it to the designated value otherwise it will leave it intact.
+
+SELECT AVG(salary) FROM salaries;
+
+SELECT *,
+	IF(salary > (SELECT AVG(salary) FROM salaries),'High Earner','Low Earner') AS HIGHLOW
+    FROM salaries;
+    
+    
+#TEMPORARY TABLE
+USE employees;
+USE somerville_2275;
+
+
+    
